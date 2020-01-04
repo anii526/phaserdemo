@@ -7,14 +7,14 @@ import livereload from "rollup-plugin-livereload";
 
 export default {
     //  Our games entry point (edit as required)
-    input: ["./src/game.ts"],
+    input: ["./src/app.ts"],
 
     //  Where the build file is to be generated.
     //  Most games being built for distribution can use iife as the module type.
     //  You can also use 'umd' if you need to ingest your game into another system.
     //  The 'intro' property can be removed if using Phaser 3.21 or above. Keep it for earlier versions.
     output: {
-        file: "./dist/game.js",
+        file: "./dist/app.js",
         name: "MyGame",
         format: "iife",
         sourcemap: true,
