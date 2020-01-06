@@ -11,26 +11,32 @@ export class WelcomeScene extends Phaser.Scene {
     create(): void {
         var titleText: string = "Hop Hop";
         this.title = this.add
-            .text(375, 250, titleText, {
-                fontFamily: "Helvetica",
+            .text(640 / 2, 960 / 2.5, titleText, {
+                fontFamily: "Roboto Condensed",
                 fontStyle: "Bold",
                 fontSize: "128px",
                 fill: "#FBFBAC"
             })
             .setOrigin(0.5, 0.5);
         var hintText: string = "Click to start";
-        this.hint = this.add.text(300, 350, hintText, {
-            fontFamily: "Helvetica",
-            fontStyle: "Bold",
-            fontSize: "28px",
-            fill: "#FBFBAC"
-        });
+        this.hint = this.add
+            .text(this.title.x, this.title.y + 130, hintText, {
+                fontFamily: "Roboto Condensed",
+                fontStyle: "Bold",
+                fontSize: "38px",
+                fill: "#FBFBAC"
+            })
+            .setOrigin(0.5, 0.5);
         this.input.on(
             "pointerdown",
             function(/*pointer*/) {
                 this.scene.start("Demo");
             },
             this
+        );
+
+        console.log(
+            "WelcomeScene : ЭКРАН НА КОТОРЫЙ НУЖНО ПРОСТО КЛИКАТЬ БЫТЬ НЕ ДОЛЖНО"
         );
     }
 }

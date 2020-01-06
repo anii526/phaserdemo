@@ -57,7 +57,7 @@ export default {
         serve({
             open: true,
             contentBase: "dist",
-            host: "192.168.1.104",
+            host: "192.168.1.108",
             port: 10001,
             headers: {
                 "Access-Control-Allow-Origin": "*"

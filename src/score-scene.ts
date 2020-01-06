@@ -13,15 +13,23 @@ export class ScoreScene extends Phaser.Scene {
     }
     create(): void {
         var resultText: string = "Your score is " + this.score + "!";
-        this.result = this.add.text(200, 250, resultText, {
-            font: "48px Arial Bold",
-            fill: "#FBFBAC"
-        });
+        this.result = this.add
+            .text(640 / 2, 960 / 2.5, resultText, {
+                fontFamily: "Roboto Condensed",
+                fontStyle: "Bold",
+                fontSize: "38px",
+                fill: "#FBFBAC"
+            })
+            .setOrigin(0.5, 0.5);
         var hintText: string = "Click to restart";
-        this.hint = this.add.text(300, 350, hintText, {
-            font: "24px Arial Bold",
-            fill: "#FBFBAC"
-        });
+        this.hint = this.add
+            .text(this.result.x, this.result.y + 130, hintText, {
+                fontFamily: "Roboto Condensed",
+                fontStyle: "Bold",
+                fontSize: "38px",
+                fill: "#FBFBAC"
+            })
+            .setOrigin(0.5, 0.5);
         this.input.on(
             "pointerdown",
             function(/*pointer*/) {

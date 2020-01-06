@@ -20,8 +20,8 @@ export const config: Phaser.Types.Core.GameConfig = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         parent: "thegame",
-        width: 750,
-        height: 500
+        width: 640,
+        height: 960
     },
     scene: [WelcomeScene, Demo, ScoreScene],
     physics: {

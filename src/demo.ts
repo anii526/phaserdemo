@@ -21,13 +21,14 @@ export default class Demo extends Phaser.Scene {
         this.firstBounce = 0;
         this.ground = this.physics.add.sprite(
             (game.config.width as number) / 2,
-            ((game.config.height as number) / 4) * 3,
+            ((game.config.height as number) / 4) * 2.5,
             "ground"
         );
         this.ground.setImmovable(true);
         this.ball = this.physics.add.sprite(
             ((game.config.width as number) / 10) * 2,
-            ((game.config.height as number) / 4) * 3 - gameOptions.bounceHeight,
+            ((game.config.height as number) / 4) * 2.5 -
+                gameOptions.bounceHeight,
             "ball"
         );
         this.ball.body.gravity.y = gameOptions.ballGravity;
@@ -54,7 +55,12 @@ export default class Demo extends Phaser.Scene {
         null
             ? 0
             : localStorage.getItem(gameOptions.localStorageName));
-        this.scoreText = this.add.text(10, 10, "");
+        this.scoreText = this.add.text(10, 10, "", {
+            fontFamily: "Roboto Condensed",
+            fontStyle: "Bold",
+            fontSize: "38px",
+            fill: "#FBFBAC"
+        });
         this.updateScore(this.score);
     }
     updateScore(inc) {
@@ -96,7 +102,8 @@ export default class Demo extends Phaser.Scene {
                     gameOptions.localStorageName,
                     Math.max(this.score, this.topScore).toString()
                 );
-                this.scene.start("Demo");
+                // this.scene.start("Demo");
+                this.scene.start("ScoreScene");
             },
             null,
             this
