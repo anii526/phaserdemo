@@ -25,10 +25,10 @@ export const config: Phaser.Types.Core.GameConfig = {
     },
     scene: [WelcomeScene, Demo, ScoreScene],
     physics: {
-        default: "arcade",
-        arcade: {
-            debug: true
-        }
+        default: "arcade"
+        // arcade: {
+        //     debug: true
+        // }
     }
 };
 
