@@ -1,22 +1,22 @@
 import "phaser";
-import { game, gameOptions } from "./app";
-export default class Demo extends Phaser.Scene {
-    obstacleGroup: Phaser.Physics.Arcade.Group;
-    firstBounce: number;
-    ground: Phaser.Physics.Arcade.Sprite;
-    ball: Phaser.Physics.Arcade.Sprite;
-    score: number;
-    topScore: number;
-    scoreText: Phaser.GameObjects.Text;
+import { game, gameOptions } from ".";
+export class Demo extends Phaser.Scene {
+    public obstacleGroup: Phaser.Physics.Arcade.Group;
+    public firstBounce: number;
+    public ground: Phaser.Physics.Arcade.Sprite;
+    public ball: Phaser.Physics.Arcade.Sprite;
+    public score: number;
+    public topScore: number;
+    public scoreText: Phaser.GameObjects.Text;
     constructor() {
         super("Demo");
     }
-    preload() {
+    public preload() {
         this.load.image("ground", "assets/ground.png");
         this.load.image("ball", "assets/ball.png");
         this.load.image("obstacle", "assets/obstacle.png");
     }
-    create() {
+    public create() {
         this.obstacleGroup = this.physics.add.group();
         this.firstBounce = 0;
         this.ground = this.physics.add.sprite(
@@ -36,7 +36,7 @@ export default class Demo extends Phaser.Scene {
         this.ball.setCircle(25);
         let obstacleX = game.config.width as number;
         for (let i = 0; i < 10; i++) {
-            let obstacle = this.obstacleGroup.create(
+            const obstacle = this.obstacleGroup.create(
                 obstacleX,
                 this.ground.getBounds().top,
                 "obstacle"
@@ -51,41 +51,41 @@ export default class Demo extends Phaser.Scene {
         this.obstacleGroup.setVelocityX(-gameOptions.obstacleSpeed);
         this.input.on("pointerdown", this.boost, this);
         this.score = 0;
-        this.topScore = +(localStorage.getItem(gameOptions.localStorageName) ==
+        this.topScore = +(localStorage.getItem(gameOptions.localStorageName) ===
         null
             ? 0
             : localStorage.getItem(gameOptions.localStorageName));
         this.scoreText = this.add.text(10, 10, "", {
-            fontFamily: "Roboto Condensed",
-            fontStyle: "Bold",
+            fontFamily: "roboto_condensedbold",
+            // fontStyle: "Bold",
             fontSize: "38px",
             fill: "#FBFBAC"
         });
         this.updateScore(this.score);
     }
-    updateScore(inc) {
+    public updateScore(inc: number) {
         this.score += inc;
         this.scoreText.text =
             "Score: " + this.score + "\nBest: " + this.topScore;
     }
-    boost() {
-        if (this.firstBounce != 0) {
+    public boost() {
+        if (this.firstBounce !== 0) {
             this.ball.body.velocity.y = gameOptions.ballPower;
         }
     }
-    getRightmostObstacle() {
+    public getRightmostObstacle() {
         let rightmostObstacle = 0;
-        this.obstacleGroup.getChildren().forEach(function(obstacle: any) {
+        this.obstacleGroup.getChildren().forEach((obstacle: any) => {
             rightmostObstacle = Math.max(rightmostObstacle, obstacle.x);
         });
         return rightmostObstacle;
     }
-    update() {
+    public update() {
         this.physics.world.collide(
             this.ground,
             this.ball,
-            function() {
-                if (this.firstBounce == 0) {
+            () => {
+                if (this.firstBounce === 0) {
                     this.firstBounce = this.ball.body.velocity.y;
                 } else {
                     this.ball.body.velocity.y = this.firstBounce;
@@ -97,7 +97,7 @@ export default class Demo extends Phaser.Scene {
         this.physics.world.collide(
             this.ball,
             this.obstacleGroup,
-            function() {
+            () => {
                 localStorage.setItem(
                     gameOptions.localStorageName,
                     Math.max(this.score, this.topScore).toString()
@@ -108,7 +108,7 @@ export default class Demo extends Phaser.Scene {
             null,
             this
         );
-        this.obstacleGroup.getChildren().forEach(function(obstacle: any) {
+        this.obstacleGroup.getChildren().forEach((obstacle: any) => {
             if (obstacle.getBounds().right < 0) {
                 this.updateScore(1);
                 obstacle.x =
