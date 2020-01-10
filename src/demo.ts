@@ -8,6 +8,9 @@ export class Demo extends Phaser.Scene {
     public score: number;
     public topScore: number;
     public scoreText: Phaser.GameObjects.Text;
+    public obstacleSpeed: number;
+    public particles: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    public emitter: Phaser.GameObjects.Particles.ParticleEmitter;
     constructor() {
         super("Demo");
     }
@@ -15,8 +18,11 @@ export class Demo extends Phaser.Scene {
         this.load.image("ground", "assets/ground.png");
         this.load.image("ball", "assets/ball.png");
         this.load.image("obstacle", "assets/obstacle.png");
+        this.load.image("particle", "assets/particle.png");
     }
     public create() {
+        this.obstacleSpeed = -gameOptions.obstacleSpeed;
+
         this.obstacleGroup = this.physics.add.group();
         this.firstBounce = 0;
         this.ground = this.physics.add.sprite(
@@ -48,7 +54,7 @@ export class Demo extends Phaser.Scene {
                 gameOptions.obstacleDistanceRange[1]
             );
         }
-        this.obstacleGroup.setVelocityX(-gameOptions.obstacleSpeed);
+        this.obstacleGroup.setVelocityX(this.obstacleSpeed);
         this.input.on("pointerdown", this.boost, this);
         this.score = 0;
         this.topScore = +(localStorage.getItem(gameOptions.localStorageName) ===
@@ -62,6 +68,20 @@ export class Demo extends Phaser.Scene {
             fill: "#FBFBAC"
         });
         this.updateScore(this.score);
+
+        this.particles = this.add.particles("particle");
+        this.emitter = this.particles.createEmitter({
+            angle: { min: 240, max: 300 },
+            speedX: { min: -200, max: 200 },
+            speedY: { min: -200, max: 200 },
+            quantity: 5,
+            lifespan: 500,
+            alpha: { start: 1, end: 0 },
+            scale: { random: [1, 0.5] },
+            // blendMode: "ADD",
+            // gravityX: -350,
+            on: false
+        });
     }
     public updateScore(inc: number) {
         this.score += inc;
@@ -90,6 +110,12 @@ export class Demo extends Phaser.Scene {
                 } else {
                     this.ball.body.velocity.y = this.firstBounce;
                 }
+
+                this.emitter.setGravityX(this.obstacleSpeed);
+                this.emitter.emitParticleAt(
+                    this.ball.x,
+                    this.ball.getBounds().bottom
+                );
             },
             null,
             this
@@ -120,6 +146,8 @@ export class Demo extends Phaser.Scene {
                         gameOptions.obstacleDistanceRange[0],
                         gameOptions.obstacleDistanceRange[1]
                     );
+                this.obstacleSpeed -= 7;
+                this.obstacleGroup.setVelocityX(this.obstacleSpeed);
             }
         }, this);
     }
