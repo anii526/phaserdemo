@@ -56,7 +56,7 @@ export class Demo extends Phaser.Scene {
             ? 0
             : localStorage.getItem(gameOptions.localStorageName));
         this.scoreText = this.add.text(10, 10, "", {
-            fontFamily: "roboto_condensedbold",
+            fontFamily: "aire_exteriorregular",
             // fontStyle: "Bold",
             fontSize: "38px",
             fill: "#FBFBAC"
@@ -66,7 +66,7 @@ export class Demo extends Phaser.Scene {
     public updateScore(inc: number) {
         this.score += inc;
         this.scoreText.text =
-            "Score: " + this.score + "\nBest: " + this.topScore;
+            "Результат: " + this.score + "\nЛучший результат: " + this.topScore;
     }
     public boost() {
         if (this.firstBounce !== 0) {
@@ -103,7 +103,10 @@ export class Demo extends Phaser.Scene {
                     Math.max(this.score, this.topScore).toString()
                 );
                 // this.scene.start("Demo");
-                this.scene.start("ScoreScene");
+                this.scene.start("ScoreScene", {
+                    score: this.score,
+                    topscore: this.topScore
+                });
             },
             null,
             this
