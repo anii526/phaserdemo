@@ -11,6 +11,9 @@ export class Demo extends Phaser.Scene {
     public obstacleSpeed: number;
     public particles: Phaser.GameObjects.Particles.ParticleEmitterManager;
     public emitter: Phaser.GameObjects.Particles.ParticleEmitter;
+    public soundBack: Phaser.Sound.BaseSound;
+    public soundHit: Phaser.Sound.BaseSound;
+    public soundGameOver: Phaser.Sound.BaseSound;
     constructor() {
         super("Demo");
     }
@@ -21,6 +24,23 @@ export class Demo extends Phaser.Scene {
         this.load.image("particle", "assets/particle.png");
     }
     public create() {
+        this.soundBack = this.sound.add("back", {
+            volume: 0,
+            loop: true
+        });
+        this.soundHit = this.sound.add("hit", {
+            volume: 1
+        });
+        this.soundGameOver = this.sound.add("gameover", {
+            volume: 0.5
+        });
+        this.soundBack.play();
+        this.tweens.add({
+            targets: this.soundBack,
+            volume: 0.5,
+            duration: 300
+        });
+
         this.obstacleSpeed = -gameOptions.obstacleSpeed;
 
         this.obstacleGroup = this.physics.add.group();
@@ -110,7 +130,7 @@ export class Demo extends Phaser.Scene {
                 } else {
                     this.ball.body.velocity.y = this.firstBounce;
                 }
-
+                this.soundHit.play();
                 this.emitter.setGravityX(this.obstacleSpeed);
                 this.emitter.emitParticleAt(
                     this.ball.x,
@@ -129,10 +149,25 @@ export class Demo extends Phaser.Scene {
                     Math.max(this.score, this.topScore).toString()
                 );
                 // this.scene.start("Demo");
-                this.scene.start("ScoreScene", {
-                    score: this.score,
-                    topscore: this.topScore
+                this.tweens.add({
+                    targets: this.soundBack,
+                    volume: 0,
+                    duration: 300,
+                    onComplete: () => {
+                        this.soundBack.stop();
+                        this.scene.start("ScoreScene", {
+                            score: this.score,
+                            topscore: this.topScore
+                        });
+                    }
                 });
+
+                this.tweens.add({
+                    targets: this.soundGameOver,
+                    volume: 0.5,
+                    duration: 300
+                });
+                this.soundGameOver.play();
             },
             null,
             this
