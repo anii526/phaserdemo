@@ -11,6 +11,8 @@ export class Demo extends Phaser.Scene {
     public obstacleSpeed: number;
     public particles: Phaser.GameObjects.Particles.ParticleEmitterManager;
     public emitter: Phaser.GameObjects.Particles.ParticleEmitter;
+    public particlesLoss: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    public emitterLoss: Phaser.GameObjects.Particles.ParticleEmitter;
     public soundBack: Phaser.Sound.BaseSound;
     public soundHit: Phaser.Sound.BaseSound;
     public soundGameOver: Phaser.Sound.BaseSound;
@@ -22,6 +24,7 @@ export class Demo extends Phaser.Scene {
         this.load.image("ball", "assets/ball.png");
         this.load.image("obstacle", "assets/obstacle.png");
         this.load.image("particle", "assets/particle.png");
+        this.load.image("particle2", "assets/particle2.png");
     }
     public create() {
         this.soundBack = this.sound.add("back", {
@@ -102,6 +105,20 @@ export class Demo extends Phaser.Scene {
             // gravityX: -350,
             on: false
         });
+
+        this.particlesLoss = this.add.particles("particle2");
+        this.emitterLoss = this.particlesLoss.createEmitter({
+            angle: { min: 240, max: 300 },
+            speedX: { min: -200, max: 200 },
+            speedY: { min: -200, max: 200 },
+            quantity: 5,
+            lifespan: 500,
+            alpha: { start: 1, end: 0 },
+            scale: { random: [1, 0.5] },
+            // blendMode: "ADD",
+            // gravityX: -350,
+            on: false
+        });
     }
     public updateScore(inc: number) {
         this.score += inc;
@@ -149,6 +166,11 @@ export class Demo extends Phaser.Scene {
                     Math.max(this.score, this.topScore).toString()
                 );
                 // this.scene.start("Demo");
+                this.emitterLoss.emitParticleAt(
+                    this.ball.x,
+                    this.ball.getBounds().bottom
+                );
+
                 this.tweens.add({
                     targets: this.soundBack,
                     volume: 0,

@@ -5,8 +5,32 @@ import "./index.css";
 import { ScoreScene } from "./score-scene";
 import { WelcomeScene } from "./welcome-scene";
 
-// export const app = new App();
-// app.init();
+if ("serviceWorker" in navigator) {
+    console.log(navigator.serviceWorker);
+    navigator.serviceWorker
+        .register("sw.js")
+        .then(reg => {
+            console.log("Registration succeeded. Scope is " + reg.scope);
+        })
+        .catch(error => {
+            console.error("Trouble with sw: ", error);
+        });
+}
+export let yasdk: any = {};
+
+(window as any).YaGames.init({
+    adv: {
+        onAdvClose: (wasShown: any) => {
+            console.info("adv closed!", wasShown);
+        }
+    },
+    screen: {
+        fullscreen: false
+    }
+}).then((ysdk: any) => {
+    console.log("ysdk", ysdk);
+    yasdk = ysdk;
+});
 
 export const gameOptions = {
     bounceHeight: 300,

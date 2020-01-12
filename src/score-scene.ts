@@ -24,7 +24,8 @@ export class ScoreScene extends Phaser.Scene {
                 fill: "#FBFBAC"
             })
             .setOrigin(0.5, 0.5);
-        const bestResultText: string = "Лучший результат: " + this.topScore;
+        const bestResultText: string =
+            "Лучший результат: " + Math.max(this.score, this.topScore);
         this.bestResult = this.add
             .text(640 / 2, this.result.y + 50, bestResultText, {
                 fontFamily: "aire_exteriorregular",

@@ -3,7 +3,9 @@ const path = require("path");
 const webpack = require("webpack");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const {
+    CleanWebpackPlugin
+} = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
@@ -45,18 +47,19 @@ module.exports = {
             template: "src/index.html"
         }),
         new CopyWebpackPlugin(
-            [
-                {
+            [{
                     from: "src/assets",
                     to: "assets"
+                },
+                {
+                    from: "src/sw.js",
+                    to: "sw.js"
                 }
-            ],
-            {}
+            ], {}
         )
     ],
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.(ts|js)$/,
                 exclude: /node_modules/,
                 use: "babel-loader"
