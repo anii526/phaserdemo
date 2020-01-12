@@ -16,7 +16,7 @@ if ("serviceWorker" in navigator) {
             console.error("Trouble with sw: ", error);
         });
 }
-export let yasdk: any = {};
+export let ysdk: any;
 
 (window as any).YaGames.init({
     adv: {
@@ -27,9 +27,8 @@ export let yasdk: any = {};
     screen: {
         fullscreen: false
     }
-}).then((ysdk: any) => {
-    console.log("ysdk", ysdk);
-    yasdk = ysdk;
+}).then((yasdk: any) => {
+    ysdk = yasdk;
 });
 
 export const gameOptions = {
@@ -38,7 +37,8 @@ export const gameOptions = {
     ballPower: 1200,
     obstacleSpeed: 250,
     obstacleDistanceRange: [100, 250],
-    localStorageName: "bestballscore"
+    localStorageName: "bestballscore",
+    localStorageTime: "timeshowadv"
 };
 
 export const config: Phaser.Types.Core.GameConfig = {
@@ -60,5 +60,10 @@ export const config: Phaser.Types.Core.GameConfig = {
         // }
     }
 };
+
+const lastTime = +(localStorage.getItem(gameOptions.localStorageTime) === null
+    ? 0
+    : localStorage.getItem(gameOptions.localStorageTime));
+export let timeLastShowFullscreenAdv = { value: lastTime };
 
 export const game = new Phaser.Game(config);

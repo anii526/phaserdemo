@@ -1,4 +1,5 @@
 import "phaser";
+import { gameOptions, timeLastShowFullscreenAdv, ysdk } from ".";
 export class ScoreScene extends Phaser.Scene {
     public score: number;
     public topScore: number;
@@ -43,6 +44,32 @@ export class ScoreScene extends Phaser.Scene {
                 fill: "#FBFBAC"
             })
             .setOrigin(0.5, 0.5);
+
+        const data = new Date();
+        const sec = data.getTime();
+        const resultSec = Math.round(
+            (sec - timeLastShowFullscreenAdv.value) / 1000
+        );
+        console.log(resultSec);
+        if (resultSec > 180) {
+            timeLastShowFullscreenAdv.value = sec;
+            localStorage.setItem(
+                gameOptions.localStorageTime,
+                timeLastShowFullscreenAdv.value.toString()
+            );
+
+            ysdk.adv.showFullscreenAdv({
+                callbacks: {
+                    onClose() {
+                        // some action after close
+                    },
+                    onError() {
+                        // some action on error
+                    }
+                }
+            });
+        }
+
         this.input.on(
             "pointerdown",
             () => {
