@@ -19,13 +19,6 @@ export class Demo extends Phaser.Scene {
     constructor() {
         super("Demo");
     }
-    public preload() {
-        this.load.image("ground", "assets/ground.png");
-        this.load.image("ball", "assets/ball.png");
-        this.load.image("obstacle", "assets/obstacle.png");
-        this.load.image("particle", "assets/particle.png");
-        this.load.image("particle2", "assets/particle2.png");
-    }
     public create() {
         this.soundBack = this.sound.add("back", {
             volume: 0,

@@ -8,9 +8,6 @@ export class WelcomeScene extends Phaser.Scene {
             key: "WelcomeScene"
         });
     }
-    public preload() {
-        this.load.image("obstacle", "assets/obstacle.png");
-    }
     public create(): void {
         const titleText: string = "Хоп Хоп";
         this.title = this.add
