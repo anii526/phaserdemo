@@ -12,7 +12,7 @@ export class WelcomeScene extends Phaser.Scene {
         this.load.image("obstacle", "assets/obstacle.png");
     }
     public create(): void {
-        const titleText: string = "Hop Hop";
+        const titleText: string = "Хоп Хоп";
         this.title = this.add
             .text(640 / 2, 960 / 2.5, titleText, {
                 fontFamily: "aire_exteriorregular",
@@ -36,10 +36,6 @@ export class WelcomeScene extends Phaser.Scene {
                 this.scene.start("Demo");
             },
             this
-        );
-
-        console.log(
-            "WelcomeScene : ЭКРАН НА КОТОРЫЙ НУЖНО ПРОСТО КЛИКАТЬ БЫТЬ НЕ ДОЛЖНО"
         );
     }
 }

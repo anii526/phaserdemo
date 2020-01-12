@@ -50,7 +50,6 @@ export class ScoreScene extends Phaser.Scene {
         const resultSec = Math.round(
             (sec - timeLastShowFullscreenAdv.value) / 1000
         );
-        console.log(resultSec);
         if (resultSec > 180) {
             timeLastShowFullscreenAdv.value = sec;
             localStorage.setItem(
