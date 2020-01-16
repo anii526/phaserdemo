@@ -3,6 +3,7 @@ import { Boot } from "./boot";
 import { Demo } from "./demo";
 import "./index.css";
 import { ScoreScene } from "./score-scene";
+import { utils } from "./utilsclass";
 import { WelcomeScene } from "./welcome-scene";
 
 if ("serviceWorker" in navigator) {
@@ -17,6 +18,8 @@ if ("serviceWorker" in navigator) {
 }
 export let ysdk: any;
 
+const isFullscreen: boolean = utils.isMobile();
+
 (window as any).YaGames.init({
     adv: {
         onAdvClose: (wasShown: any) => {
@@ -24,7 +27,8 @@ export let ysdk: any;
         }
     },
     screen: {
-        fullscreen: false
+        fullscreen: isFullscreen,
+        orientation: "portrait"
     }
 }).then((yasdk: any) => {
     ysdk = yasdk;
